@@ -1,0 +1,1 @@
+<?php exit();?>a:1:{s:10:"identifier";a:8:{s:2:"id";s:10:"identifier";s:5:"title";s:27:"标识串自动生成工具";s:6:"author";s:9:"phpok.com";s:7:"version";s:3:"1.0";s:6:"status";s:1:"1";s:5:"taxis";s:2:"10";s:4:"note";s:34:"可实现以 title 的表单数据";s:5:"param";s:75:"a:3:{s:9:"is_youdao";s:0:"";s:10:"is_pingyin";s:1:"1";s:5:"is_py";s:1:"1";}";}}

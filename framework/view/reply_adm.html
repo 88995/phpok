@@ -1,0 +1,42 @@
+<!-- include tpl=head_open -->
+<script type="text/javascript" src="{func include_js}"></script>
+<div class="help">
+	<div class="title red">
+		{$title_rs.title}
+		<span class="darkblue i">（发布时间：{echo date("Y-m-d H:i:s",$title_rs.dateline)}）</span>
+	</div>
+	<!-- if $title_rs.content -->
+	<div class="content">{func phpok_cut $title_rs.content 255 …}</div>
+	<!-- /if -->
+</div>
+<!-- if $rs -->
+<div class="help">
+	<div class="content">
+		<span class="red">评论内容：</span>{$rs.content}
+		<span class="darkblue i">（评论时间：{echo date("Y-m-d H:i:s",$rs.addtime)}）</span>
+	</div>
+</div>
+<!-- /if -->
+<script type="text/javascript">
+function save()
+{
+	var c = edit_content.getContent();
+	if(!c){
+		$.dialog.alert("内容不能为空");
+		return false;
+	}
+	url = get_url('reply','adm_save','id={$id}');
+	url += "&content="+$.str.encode(c);
+	var info = $.phpok.json(url);
+	if(info.status == 'ok'){
+		return true;
+	}else{
+		$.dialog.alert(info.content);
+		return false;
+	}
+}
+</script>
+<form method="post" onsubmit="return false">
+<div style="margin:3px auto;">{$edit_content}</div>
+</form>
+<!-- inc:foot_open -->

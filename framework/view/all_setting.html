@@ -1,0 +1,464 @@
+<!-- php:$code_editor_info = form_edit('meta',$rs.meta,'code_editor','width=650&height=200') -->
+<!-- include tpl=head -->
+<script type="text/javascript" src="{func include_js all.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	top.$.desktop.title('{lang网站信息}');
+});
+function rand_click()
+{
+	var $chars = 'ABCDEFGHIJKMNOPQRSTUVWXYZabcdefghijkmnopqrstuwxyz0123456789!@#%-_*';
+	var maxPos = $chars.length;
+	var pwd = '';
+	for (i = 0; i < 16; i++) {
+		pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	$("#api_code").val(pwd);
+}
+</script>
+<div class="tips clearfix">
+	{lang您当前的位置：}
+	<a href="{echo admin_url('all')}">{lang全局维护}</a>
+	&raquo; {lang编辑网站信息}
+</div>
+<div class="body">
+<ul class="group">
+	<li class="on" onclick="$.admin.group(this)" name="main" title="{lang网站基本信息}">{lang基本设置}</li>
+	<li onclick="$.admin.group(this)" name="admin" title="{lang开关网站，设置风格，语言等功能}">{lang扩展信息}</li>
+	<li onclick="$.admin.group(this)" name="seo" title="{lang全站SEO信息设置}">{langSEO优化}</li>
+	<li onclick="$.admin.group(this)" name="biz" title="{lang启用电子商务功能}">{lang电子商务}</li>
+	<li onclick="$.admin.group(this)" name="upload" title="{lang配置游客和会员的上传属性}">{lang上传配置}</li>
+</ul>
+
+<form method="post" id="cate_post" action="{echo admin_url('all','save')}" onsubmit="return all_setting_check();">
+<div id="main_setting">
+<div class="table">
+	<div class="title">
+		{lang网站名称：}
+		<span class="note">{lang即在前台使用的名称信息}</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="title" name="title" class="default" value="{$rs.title}" /></td>
+			<td><div id="title_note"></div></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang域名：}
+		<span class="note">{lang网站域名，不用填写http://，也不能填写 / 结束符}</span></span>
+	</div>
+	<div class="content"><input type="text" id="domain" name="domain" class="default" value="{$rs.domain}" /></div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang安装目录}
+		<span class="note">{lang根目录请用 /，其他目录请写目录名且要求以 / 结束，如：/phpok/}</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="dir" name="dir" class="default" value="{$rs.dir}" /></td>
+			<td><div id="title_note"></div></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang网站LOGO}
+		<span class="note">{lang绑定网站的LOGO信息}</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="logo" name="logo" class="default" value="{$rs.logo}" /></td>
+			<td><input type="button" value="{lang选择}" onclick="phpok_pic('logo')" class="btn" /></td>
+			<td><input type="button" value="{lang预览}" onclick="phpok_pic_view('logo')" class="btn" /></td>
+			<td><input type="button" value="{lang清空}" onclick="$('#logo').val('');" class="btn" /></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{langAPI验证串：}
+		<span class="note">{lang用于数据加密通迅时使用，建议定期更改}</span>
+	</div>
+	<div class="content">
+		<input type="text" id="api_code" name="api_code" class="default" value="{$rs.api_code}" />
+		<input type="button" value="{lang随机生成}" onclick="rand_click()" class="btn" />
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang网页扩展说明：}
+		<span class="note">{lang添加页头信息，如添加google验证，百度验证等，支持HTML}</span>
+	</div>
+	<div class="content">
+		{$code_editor_info}
+	</div>
+</div>
+</div>
+<div id="seo_setting" class="hide">
+<div class="table">
+	<div class="title">
+		网址优化：
+		<span class="note">本系统全面支持网址优化，您可以根据自身条件进行设置</span>
+	</div>
+	<div class="content">
+		<table>
+		<tr>
+			<td><label><input type="radio" name="url_type" value="default"{if $rs.url_type == "default" || !$rs.url_type} checked{/if} /> {lang默认，动态网址}</label></td>
+			<td class="gray">{lang示例：}http://www.domain.com/index.php?id={lang标识或数字ID}</td>
+		</tr>
+		<tr>
+			<td><label><input type="radio" name="url_type" value="rewrite"{if $rs.url_type == "rewrite"} checked{/if} /> {lang伪静态页}</label></td>
+			<td class="gray">{lang示例：}http://www.domain.com/{lang标识或数字ID}.html</td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{langSEO标题：}
+		<span class="note">{lang针对HTML里的Title属性进行优化，建议使用英文竖线分割开来，不超过80字}</span></span>
+	</div>
+	<div class="content">
+		<input type="text" id="seo_title" name="seo_title" class="long" value="{$rs.seo_title}" />
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{langSEO关键字：}
+		<span class="note">{lang简单明了用几个词来描述您的网站，多个词用英文逗号隔开}</span></span>
+	</div>
+	<div class="content">
+		<input type="text" id="seo_keywords" name="seo_keywords" class="long" value="{$rs.seo_keywords}" />
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{langSEO摘要：}
+		<span class="note">{lang针对您的网站，简单描述其作用，目标群体，未来方向等信息，建议不超过100字}</span>
+	</div>
+	<div class="content"><textarea id="seo_desc" name="seo_desc" class="long">{$rs.seo_desc}</textarea></div>
+</div>
+</div>
+<input type="hidden" name="api" id="" value="0" />
+
+<div id="admin_setting" class="hide">
+<div class="table">
+	<div class="title">
+		{lang网站状态：}
+		<span class="note">{lang要停止此网站运行，请在这里关闭}</span>
+	</div>
+	<div class="content">
+		<table>
+		<tr>
+			<td><label id="status_0"><input type="radio" id="status_0" name="status" value="0" {if !$rs.status} checked{/if} /> {lang关闭}</label></td>
+			<td><label id="status_1"><input type="radio" id="status_1" name="status" value="1" {if $rs.status} checked{/if} /> {lang开启}</label></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang网站关闭说明：}
+		<span class="note">{lang简单说明关闭网站的通知信息}</span>
+	</div>
+	<div class="content"><textarea id="content" name="content" class="long">{$rs.content}</textarea></div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang默认风格：}
+		<span class="note">{lang指定网站要使用的默认风格，注意，风格不区分语言和站点，请仔细选择}</span>
+	</div>
+	<div class="content">
+		<select id="tpl_id" name="tpl_id">
+			<!-- if $tpl_list -->
+				<!-- foreach($tpl_list AS $key=>$value) -->
+				<option value="{$value.id}"{if $rs.tpl_id == $value.id} selected{/if}>{$value.title}</option>
+				<!-- /foreach -->
+			<!-- else -->
+			<option value="">{lang未安装风格包，请先安装}</option>
+			<!-- /if -->
+		</select>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang默认语言：}
+		<span class="note">{lang未设置语言包时，将调用系统默认语言包}</span>
+	</div>
+	<div class="content">
+		<select id="lang" name="lang">
+		<!-- loop from=$langlist key=$key value=$value -->
+		<option value="{$key}"{if $rs.lang == $key} selected{/if}>{$value}</option>
+		<!-- /loop -->
+		</select>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang注册：}
+		<span class="note">{lang关闭注册功能请在这里设置}</span>
+	</div>
+	<div class="content">
+		<table>
+		<tr>
+			<td><label><input type="radio" name="register_status" value="1" {if $rs.register_status} checked{/if} onclick="$('#register_close_note').hide()" /> {lang开启}</label></td>
+			<td><label><input type="radio" name="register_status" value="0" {if !$rs.register_status} checked{/if} onclick="$('#register_close_note').show()" /> {lang关闭}</label></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table{if $rs.register_status} hide{/if}" id="register_close_note">
+	<div class="title">
+		{lang注册关闭说明：}<span class="note">{lang简单一句话说明关掉网站会员注册的原因}</span>
+	</div>
+	<div class="content">
+		<textarea id="register_close" name="register_close" class="long">{$rs.register_close}</textarea>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang登录：}
+		<span class="note">{lang关闭登录功能请在这里设置}</span>
+	</div>
+	<div class="content">
+		<table>
+		<tr>
+			<td><label><input type="radio" name="login_status" value="1" {if $rs.login_status} checked{/if} onclick="$('#login_status_1').show();$('#login_status_0').hide()" /> {lang开启}</label></td>
+			<td><label><input type="radio" name="login_status" value="0" {if !$rs.login_status} checked{/if} onclick="$('#login_status_1').hide();$('#login_status_0').show()" /> {lang关闭}</label></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table{if $rs.login_status} hide{/if}" id="login_status_0">
+	<div class="title">
+		{lang登录关闭说明：}<span class="note">{lang简单一句话说明关掉网站会员登录的原因}</span>
+	</div>
+	<div class="content">
+		<textarea id="login_close" name="login_close" class="long">{$rs.login_close}</textarea>
+	</div>
+</div>
+<div id="login_status_1"{if !$rs.login_status} class="hide"{/if}>
+	<div class="table">
+		<div class="title">
+			{lang默认登录方式：}<span class="note">{lang设置一个会员登录的默认方式}</span>
+		</div>
+		<div class="content">
+			<ul class="layout">
+				<li><label><input type="radio" name="login_type" value="0"{if !$rs.login_type} checked{/if} />{lang普通登录（即账号密码登录方式）}</label></li>
+				<!-- if $gateway_email -->
+				<li><label><input type="radio" name="login_type" value="email"{if $rs.login_type == 'email'} checked{/if} />{langEmail验证登录}</label></li>
+				<!-- /if -->
+				<!-- if $gateway_sms -->
+				<li><label><input type="radio" name="login_type" value="sms"{if $rs.login_type == 'sms'} checked{/if} />{lang短信验证登录}</label></li>
+				<!-- /if -->
+			</ul>
+		</div>
+	</div>
+	<div class="table">
+		<div class="title">
+			{lang邮件验证码模板：}<span class="note">{lang请配置好邮件验证码模板，不然系统无法支持邮件验证码登录}</span>
+		</div>
+		<div class="content">
+			<select name="login_type_email">
+				<option value="">{lang请选择…}</option>
+				<!-- loop from=$emailtpl key=$key value=$value id=$tmpid -->
+				<!-- if substr($value.identifier,0,4) != 'sms_' -->
+				<option value="{$value.identifier}"{if $rs.login_type_email == $value.identifier} selected{/if}>{lang模板：}{$value.title}</option>
+				<!-- /if -->
+				<!-- /loop -->
+			</select>
+		</div>
+	</div>
+	<div class="table">
+		<div class="title">
+			{lang短信验证码模板：}<span class="note">{lang请配置好短信验证码模板，不然系统无法支持短信验证码登录}</span>
+		</div>
+		<div class="content">
+			<select name="login_type_sms">
+				<option value="">{lang请选择…}</option>
+				<!-- loop from=$emailtpl key=$key value=$value id=$tmpid -->
+				<!-- if substr($value.identifier,0,4) == 'sms_' -->
+				<option value="{$value.identifier}"{if $rs.login_type_sms == $value.identifier} selected{/if}>模板：{$value.title}</option>
+				<!-- /if -->
+				<!-- /loop -->
+			</select>
+		</div>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang后台LOGO}
+		<span class="note">{lang显示在后台管理左上方的LOGO，高度限制在45px}</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="adm_logo29" name="adm_logo29" class="default" value="{$rs.adm_logo29}" /></td>
+			<td><input type="button" value="{lang选择}" onclick="phpok_pic('adm_logo29')" class="btn" /></td>
+			<td><input type="button" value="{lang预览}" onclick="phpok_pic_view('adm_logo29')" class="btn" /></td>
+			<td><input type="button" value="{lang清空}" onclick="$('#adm_logo29').val('');" class="btn" /></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang后台登录LOGO}
+		<span class="note">{lang显示在居中登录框上，建议使用PNG透明图片，高度限制在180px}</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="adm_logo180" name="adm_logo180" class="default" value="{$rs.adm_logo180}" /></td>
+			<td><input type="button" value="{lang选择}" onclick="phpok_pic('adm_logo180')" class="btn" /></td>
+			<td><input type="button" value="{lang预览}" onclick="phpok_pic_view('adm_logo180')" class="btn" /></td>
+			<td><input type="button" value="{lang清空}" onclick="$('#adm_logo180').val('');" class="btn" /></td>
+		</tr>
+		</table>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+function insert_input(val)
+{
+	var info = $("#biz_sn").val();
+	if(info){
+		val = info + '-' +val;
+	}
+	$("#biz_sn").val(val);
+}
+</script>
+<div id="biz_setting" class="hide">
+<div class="table">
+	<div class="title">
+		电商：
+		<span class="note">仅限这里启用电商后，整个平台才支持电商化</span>
+	</div>
+	<div class="content">
+		<ul class="layout">
+			<li><label><input type="radio" name="biz_status" value="0"{if !$rs.biz_status} checked{/if} />禁用</label></li>
+			<li><label><input type="radio" name="biz_status" value="1"{if $rs.biz_status} checked{/if} />启用</label></li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang订单号生成规则：}
+		<span class="note">
+			{lang支持以下常用选项（年-月-日-时-分-秒-随机数-序号-时间戳）}
+		</span>
+	</div>
+	<div class="content">
+		<input type="text" id="biz_sn" name="biz_sn" class="long" value="{$rs.biz_sn}" />
+		<input type="button" value="清空" onclick="$('#biz_sn').val('')" class="phpok-btn" />
+		<div style="padding-top:5px">
+			<div class="button-group">
+				<input type="button" value="{lang前缀}" onclick="insert_input('prefix[P]')" class="phpok-btn" />
+				<input type="button" value="{lang年}" onclick="insert_input('year')" class="phpok-btn" />
+				<input type="button" value="{lang月}" onclick="insert_input('month')" class="phpok-btn" />
+				<input type="button" value="{lang日}" onclick="insert_input('date')" class="phpok-btn" />
+				<input type="button" value="{lang时}" onclick="insert_input('hour')" class="phpok-btn" />
+				<input type="button" value="{lang分}" onclick="insert_input('minute')" class="phpok-btn" />
+				<input type="button" value="{lang秒}" onclick="insert_input('second')" class="phpok-btn" />
+				<input type="button" value="{lang随机}" onclick="insert_input('rand')" class="phpok-btn" />
+				<input type="button" value="{lang时间戳}" onclick="insert_input('time')" class="phpok-btn" />
+				<input type="button" value="{lang序号}" onclick="insert_input('number')" class="phpok-btn" />
+				<input type="button" value="{lang订单ID}" onclick="insert_input('id')" class="phpok-btn" />
+				<input type="button" value="{lang会员ID}" onclick="insert_input('user')" class="phpok-btn" />
+			</div>
+		</div>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang电商货币：}
+		<span class="note">{lang若您的网站启用电子商务功能，请开启前台默认货币设置，注意，前台不支持货币符号选择}</span>
+	</div>
+	<div class="content">
+		<select id="currency_id" name="currency_id">
+		<option value="">{lang不使用}</option>
+		<!-- loop from=$currency_list key=$key value=$value -->
+		<option value="{$value.id}"{if $rs.currency_id == $value.id} selected{/if}>{$value.title}({lang标识：}{$value.code}, {lang汇率：}{$value.val})</option>
+		<!-- /loop -->
+		</select>
+	</div>
+</div>
+
+<div class="table">
+	<div class="title">
+		{lang默认支付方式：}
+		<span class="note">{lang结算订单后会自动绑定支付方式，当然，客户可以自行更换其他支付方式}</span>
+	</div>
+	<div class="content">
+	<select name="biz_payment">
+		<option value="0">{lang不指定}</option>
+		<!-- loop from=$payment key=$key value=$value -->
+		<option value="{$value.id}"{if $rs.biz_payment == $value.id} selected{/if}>{$value.title}</option>
+		<!-- /loop -->
+	</select>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		运费：
+		<span class="note">请选择电商平台运费计算方法</span>
+	</div>
+	<div class="content">
+		<select name="biz_freight">
+			<option value="0">不使用运费</option>
+			<!-- loop from=$freight key=$key value=$value id=$tmpid -->
+			<option value="{$value.id}"{if $rs.biz_freight == $value.id} selected{/if}>{$value.title}</option>
+			<!-- /loop -->
+		</select>
+	</div>
+</div>
+
+</div>
+
+<div id="upload_setting" class="hide">
+<div class="table">
+	<div class="title">
+		{lang游客上传权限：}
+		<span class="note">{lang启用上传权限后，游客仅可以上传JPG，GIF，PNG，JPEG，ZIP，RAR这几种类型的附件}</span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><label><input type="radio" name="upload_guest" value="0" {if !$rs.upload_guest} checked{/if} />{lang禁用}</label></td>
+			<td><label><input type="radio" name="upload_guest" value="1" {if $rs.upload_guest} checked{/if} />{lang启用}</label></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang会员上传权限：}
+		<span class="note">{lang支持类型有：JPG，GIF，PNG，JPEG，ZIP，RAR，PPT，PPTX，TXT，RTF，CSV，XLS，XLSX，DOC，DOCX，WPS}</span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><label><input type="radio" name="upload_user" value="0" {if !$rs.upload_user} checked{/if} />{lang禁用}</label></td>
+			<td><label><input type="radio" name="upload_user" value="1" {if $rs.upload_user} checked{/if} />{lang启用}</label></td>
+		</tr>
+		</table>
+	</div>
+</div>
+</div>
+
+<div class="submit-info"><input type="submit" value="{lang提交}" class="submit2" /></div>
+
+</form>
+</div>
+
+<!-- include tpl=foot -->

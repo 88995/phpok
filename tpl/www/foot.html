@@ -1,0 +1,40 @@
+<div class="foot">
+	<div class="copyright">
+		<!-- php:$list = phpok('footnav') -->
+		<!-- loop from=$list.rslist key=$key value=$value id=$list_id -->
+		<a href="{$value.url}" title="{$value.title}" target="{$value.target}">{$value.title}</a>
+		<!-- if $list_id.num == $list_id.total --><br /><!-- else --> | <!-- /if -->
+		<!-- /loop -->
+		{$config.copyright.content}
+		<div class="debug">{func debug_time 1 1 1 1}</div>
+	</div>
+</div>
+<!-- php:$list = phpok('kefu') -->
+<!-- if $list.project && $list.rslist -->
+<div id="right-float-box" class="im_floatonline">
+	<div class="float-box-content">
+		<div class="toptitle">{$list.project.title}</div>
+		<div class="addlist">
+			<ul>
+				<!-- loop from=$list.rslist key=$key value=$value -->
+				<li>{$value.title}<br /><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$value.qq}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:{$value.qq}:51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a></li>
+				<!-- /loop -->
+				<!-- if $list.project.barcode -->
+				<li><img src="{$list.project.barcode.filename}" width="80px" alt="{$list.project.title}" /></li>
+				<!-- /if -->
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /if -->
+<script type="text/javascript">
+$(document).ready(function(){
+	//window.setTimeout(function(){
+	//	$.phpok.json(api_url('task'),function(rs){return true;});
+	//}, 2000);
+	//更新购物车产品数量
+	$.cart.total();
+});
+</script>
+</body>
+</html>

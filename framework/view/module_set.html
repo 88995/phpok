@@ -1,0 +1,64 @@
+<!-- include tpl=head -->
+<script type="text/javascript" src="{func add_js module.js}"></script>
+<script type="text/javascript">
+function save()
+{
+	var obj = art.dialog.opener;
+	$("#module_submit_post").ajaxSubmit({
+		'url':get_url('module','save'),
+		'type':'post',
+		'dataType':'json',
+		'success':function(rs){
+			if(rs.status){
+				var id = '{$id}';
+				var tip = !id ? '{lang模块添加成功}' : '{lang模块编辑成功}';
+				$.dialog.alert(tip,function(){
+					obj.$.phpok.reload();
+				},'succeed');
+			}else{
+				$.dialog.alert(rs.info);
+				return false;
+			}
+		}
+	});
+	return false;
+}
+</script>
+<form method="post" id="module_submit_post" onsubmit="return false;">
+<input type="hidden" id="id" name="id" value="{$id}" />
+<div class="table">
+	<div class="title">
+		名称：
+		<span class="note">设置一个名称，该名称将在应用中读取，不受站点影响</span></span>
+	</div>
+	<div class="content">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" id="title" name="title" class="default" value="{$rs.title}" /></td>
+			<td><div id="title_note"></div></td>
+		</tr>
+		</table>
+	</div>
+</div>
+
+<div class="table">
+	<div class="title">
+		备注：
+		<span class="note">仅限后台管理使用，用于查看该模块主要做什么</span></span>
+	</div>
+	<div class="content"><input type="text" id="note" name="note" class="long" value="{$rs.note}" /></div>
+</div>
+
+
+
+
+<div class="table">
+	<div class="title">
+		排序：
+		<span class="note">值越小越往前靠，最小值为0，最大值为255</span>
+	</div>
+	<div class="content"><input type="text" id="taxis" name="taxis" class="short" value="{$rs.taxis ? $rs.taxis : 255}" /></div>
+</div>
+</form>
+
+<!-- include tpl=foot_open -->

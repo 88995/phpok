@@ -1,0 +1,39 @@
+<!-- php:$cssfile = $css ? "css/style.css,artdialog.css,".$css : "css/style.css,artdialog.css" -->
+<!-- php:$jsfile = $js ? "js/global.js,".$js : "js/global.js" -->
+<!-- head title=$title css=$cssfile extjs="jquery.artdialog.js" js=$jsfile html5=true -->
+<body>
+<header>
+	<div class="top">
+		<div class="logo"><a href="{$sys.url}" title="{$config.title}"><img src="{$config.logo}" alt="{$config.title}" /></a></div>
+		<div class="right">
+			<nav class="top">
+				<a href="{url ctrl=cart/}" title="购物车">购物车 <span class="red">(<span id="head_cart_num">0</span>)</span></a> | 
+				<!-- if $session.user_id -->
+				<a href="{url ctrl=usercp/}">个人中心</a> | <a href="javascript:$.user.logout('{$session.user_name}');void(0)">退出</a>
+				<!-- else -->
+				<a href="{url ctrl=login/}">登录</a> | <a href="{url ctrl=register/}">注册</a>
+				<!-- /if -->
+				<span id="top_html_user_login"></span>
+			</nav>
+			<form method="post" action="{url ctrl=search/}" onsubmit="return top_search();">
+				<input name="keywords" value="{$keywords}" id="top-keywords" type="text" class="input" placeholder="请输入关键字" />
+				<input name="" type="submit" class="btn" value="" />
+			</form>
+		</div>
+	</div>
+	<nav class="menu">
+	<ul>
+		<!-- php:$list = phpok('menu') -->
+		<!-- loop from=$list.rslist key=$key value=$value id=mindex -->
+		<li{if $highlight == $mindex.num || $menutitle == $value.title} class="current"{/if}>
+			<dl>
+				<dt{if $value.sonlist} class="arrow"{/if}><a href="{$value.url}" title="{$value.title}" target="{$value.target}">{$value.title}</a></dt>
+				<!-- loop from=$value.sonlist key=$k value=$v -->
+				<dd><a href="{$v.url}" title="{$v.title}" target="{$v.target}">{$v.title}</a></dd>
+				<!-- /loop -->
+			</dl>
+		</li>
+		<!-- /loop -->
+	</ul>
+	</nav>
+</header>

@@ -1,0 +1,99 @@
+<!-- inc:head -->
+<script type="text/javascript" src="{func add_js module.js}"></script>
+<script type="text/javascript">
+function update_taxis(val,id)
+{
+	$.ajax({
+		'url':get_url('module','field_taxis','taxis='+val+"&id="+id),
+		'dataType':'json',
+		'cache':false,
+		'async':true,
+		'beforeSend': function (XMLHttpRequest){
+			XMLHttpRequest.setRequestHeader("request_type","ajax");
+		},
+		'success':function(rs){
+			if(rs.status){
+				$.phpok.reload();
+			}else{
+				$.dialog.alert(rs.info);
+				return false;
+			}
+		}
+	});
+}
+$(document).ready(function(){
+	$("div[name=taxis]").click(function(){
+		var oldval = $(this).text();
+		var id = $(this).attr('data');
+		$.dialog.prompt('{lang请填写新的排序：}',function(val){
+			if(val != oldval){
+				update_taxis(val,id);
+			}
+		},oldval);
+	});
+});
+</script>
+
+<div class="tips">
+	<div class="action"><a href="javascript:module_field_create('{$id}');void(0);" title="添加字段">添加字段</a></div>
+	您当前的位置：
+	<a href="{url ctrl=module/}">模块管理</a>
+	&raquo; <span class="red">{$rs.title}</span>字段管理器
+</div>
+
+<!-- if $used_list -->
+<div class="list">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<th class="id">ID</th>
+	<th class="lft">&nbsp;字段名</th>
+	<th class="lft">名称</th>
+	<th class="lft">备注</th>
+	<th class="lft">排序</th>
+	<th></th>
+</tr>
+<!-- loop from=$used_list key=$key value=$value id=$tmpid -->
+<tr>
+	<td class="center">{$value.id}</td>
+	<td>{$value.identifier}</td>
+	<td>{$value.title}</td>
+	<td>{$value.note}</td>
+	<td><div class="gray i hand center" title="{lang点击调整排序}" name="taxis" data="{$value.id}">{$value.taxis}</div></td>
+	<td>
+		<div class="button-group">
+			<input type="button" value="{lang编辑}" onclick="module_field_edit('{$value.id}')" class="phpok-btn" />
+			<input type="button" value="{lang删除}" onclick="module_field_del('{$value.id}','{$value.title}')" class="phpok-btn" />
+		</div>
+	</td>
+</tr>
+<!-- /loop -->
+</table>
+</div>
+<!-- /if -->
+<!-- if $fields_list -->
+<div class="tips">
+	<div class="action"><a href="javascript:top.$.win('字段维护','{url ctrl=fields func=set/}')" title="创建常用字段">创建常用字段</a></div>
+	常见字段快速添加</div>
+<div class="list2">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<th class="id">ID</th>
+	<th class="lft" style="width:130px">&nbsp;字段名</th>
+	<th class="lft" style="width:150px">&nbsp;名称</th>
+	<th class="lft">&nbsp;备注</th>
+	<th class="lft w30">添加</th>
+</tr>
+<!-- foreach($fields_list AS $key=>$value) -->
+<tr{if $fields_list_id.num%2 == ""} class="list"{/if} title="{$value.note}">
+	<td class="center">{$value.id}</td>
+	<td><label for="field_{$value.id}">{$value.identifier}</label></td>
+	<td><input type="text" id="field_title_{$value.id}" name="field_title_{$value.id}" value="{$value.title}" style="width:150px" /></td>
+	<td><input type="text" id="field_note_{$value.id}" name="field_note_{$value.id}" value="{$value.note}" style="width:430px" /></td>
+	<td><a class="icon add" onclick="module_field_add('{$id}','{$value.id}')" title="添加：{$value.identifier}"></a></td>
+</tr>
+<!-- /foreach -->
+</table>
+</div>
+<!-- /if -->
+
+<!-- inc:foot -->

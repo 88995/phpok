@@ -1,0 +1,59 @@
+<!-- include tpl=head title=订单中心 -->
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".o-dark").mouseover(function(){
+		$(this).addClass('o-dark-over');
+	}).mouseout(function(){
+		$(this).removeClass('o-dark-over');
+	});
+	$(".o-white").mouseover(function(){
+		$(this).addClass('o-white-over');
+	}).mouseout(function(){
+		$(this).removeClass('o-white-over');
+	});
+});
+</script>
+<div class="cp">
+	<div class="left"><!-- include tpl=block_usercp --></div>
+	<div class="right">
+		<div class="pfw mbottom10">
+			<h3>订单中心</h3>
+			<div class="list">
+			<table class="list" width="100%">
+			<tr>
+				<th width="80px">下单时间</th>
+				<th width="150px">订单编号</th>
+				<th width="80">数量</th>
+				<th class="o-price">金额</th>
+				<th class="o-status">审核</th>
+				<th width="140">明细</th>
+			</tr>
+			<!-- loop from=$rslist key=$key value=$value -->
+			<tr{if $rslist_id.num%2 == ''} class="o-dark"{else} class="o-white"{/if}>
+				<td class="center" height="30">{func date Y.m.d $value.addtime}</td>
+				<td class="center">{$value.sn}</td>
+				<td class="center">{$value.qty}</td>
+				<td class="center">{func price_format $value.price $value.currency_id $value.currency_id}</td>
+				<td class="center">{$value.status_info}</td>
+				<td align="center">
+					<input type="button" value=" 查看 " onclick="$.phpok.go('{url ctrl=order func=info id=$value.id/}',false)" />
+					<input type="button" value=" 评论 " onclick="$.phpok.go('{url ctrl=order func=comment id=$value.id/}',false)" />
+				</td>
+			</tr>
+			<!-- /loop -->
+			</table>
+			</div>
+			<div style="padding:0 3px"><!-- include tpl=block_pagelist --></div>
+		</div>
+		<div class="pfw mbottom10">
+			<h3>说明</h3>
+			<ul style="margin:0;padding:10px 10px 10px 40px;">
+				<li>如需要改单，请联系我们的管理员</li>
+				<!--li>本站订单系统还不够强大的，如果您需要更加强大的功能，请联系官网进行定制</li-->
+			</ul>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<!-- include tpl=foot -->

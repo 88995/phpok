@@ -1,0 +1,41 @@
+<input type="hidden" name="ext_form_id" id="ext_form_id" value="cate_id,is_multiple,upload_auto" />
+<div class="table">
+	<div class="title">
+		{lang默认存储到：}
+		<span class="note">{lang设置该图片默认存到哪个文件夹下，不设置使用默认}</span>
+	</div>
+	<div class="content">
+	<ul style="list-style:none;margin:0;padding:0;">
+		<!-- loop from=$catelist key=$key value=$value -->
+		<li style="line-height:200%;"><label><input type="radio" name="cate_id" value="{$value.id}"{if $rs.cate_id == $value.id || (!$rs.cate_id && $rs.is_default)} checked{/if} />{$value.title} &nbsp; <span class="gray i">{lang附件类型：}{$value.filetypes}</span></label></li>
+		<!-- /loop -->
+	</ul>
+	<div class="clear"></div>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang表单附件属性：}
+		<span class="note"></span>
+	</div>
+	<div class="content">
+	<ul class="layout">
+		<li><label><input type="radio" name="is_multiple" value="0"{if !$rs.is_multiple} checked{/if} />{lang单个附件}</label></li>
+		<li><label><input type="radio" name="is_multiple" value="1"{if $rs.is_multiple} checked{/if} />{lang多附件}</label></li>
+	</ul>
+	<div class="clear"></div>
+	</div>
+</div>
+<div class="table">
+	<div class="title">
+		{lang选择后即刻上传：}
+		<span class="note"></span>
+	</div>
+	<div class="content">
+	<ul class="layout">
+		<li><label><input type="radio" name="upload_auto" value="0"{if !$rs.upload_auto} checked{/if} />{lang否}</label></li>
+		<li><label><input type="radio" name="upload_auto" value="1"{if $rs.upload_auto} checked{/if} />{lang是}</label></li>
+	</ul>
+	<div class="clear"></div>
+	</div>
+</div>
